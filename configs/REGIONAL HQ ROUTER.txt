@@ -1,0 +1,82 @@
+Regional HQ Router
+
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#hostname REGHQ
+REGHQ(config)#interface loopback0
+
+REGHQ(config-if)#
+%LINK-5-CHANGED: Interface Loopback0, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface Loopback0, changed state to up
+
+REGHQ(config-if)#ip add 1.1.1.1 255.255.255.255
+REGHQ(config-if)#exit
+REGHQ(config)#router ospf 1
+REGHQ(config-router)#router-id 1.1.1.1
+REGHQ(config-router)#exit
+REGHQ(config)#int g0/0/0
+REGHQ(config-if)#ip add 192.168.40.1 255.255.255.252
+REGHQ(config-if)#int g0/0/1
+REGHQ(config-if)#ip add 192.168.50.1 255.255.255.252
+REGHQ(config-if)#int g0/0/0, g0/0/1
+                  ^
+% Invalid input detected at '^' marker.
+	
+REGHQ(config-if)#int range g0/0/0-1
+REGHQ(config-if-range)#no shut
+
+
+REGHQ(config-if-range)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/0, changed state to up
+
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/1, changed state to up
+
+REGHQ(config-if-range)#int se0/1/0
+REGHQ(config-if)#ip add 203.0.114.2 255.255.255.252
+REGHQ(config-if)#no shut
+
+REGHQ(config-if)#
+%LINK-5-CHANGED: Interface Serial0/1/0, changed state to up
+
+REGHQ(config-if)#
+%LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/1/0, changed state to up
+
+REGHQ(config)#int g0/0/0
+REGHQ(config-if)#ipv6 add 2001:DB8:1:1::1/64
+REGHQ(config-if)#ipv6 add fe80::1 link-local
+REGHQ(config-if)#int g0/0/1
+REGHQ(config-if)#ipv6 add 2001:DB8:1:1::2/64
+%GigabitEthernet0/0/1: Error: 2001:DB8:1:1::/64 is overlapping with 2001:DB8:1:1::/64 on GigabitEthernet0/0/0
+REGHQ(config-if)#ipv6 add 2001:DB8:1:2::1/64
+REGHQ(config-if)#exit
+REGHQ(config)#ipv6 uni
+REGHQ(config)#ipv6 unicast-routing 
+REGHQ(config-if)#exit
+REGHQ(config)#router ospf1
+                         ^
+% Invalid input detected at '^' marker.
+	
+REGHQ(config)#router ospf 1
+REGHQ(config-router)#network 192.168.40.0 0.0.0.252 area 0
+OSPF: Invalid address/mask combination (discontiguous mask)
+REGHQ(config-router)#network 192.168.40.0 0.0.0.3 area 0
+REGHQ(config-router)#network 192.168.50.0 0.0.0.3 area 0
+REGHQ(config-router)#exit
+REGHQ(config)#
+REGHQ(config)#router ospf 1
+REGHQ(config-router)#network 1.1.1.1 255.255.255.255
+% Incomplete command.
+REGHQ(config-router)#network 1.1.1.1 255.255.255.255 area 0
+REGHQ(config-router)#passive
+REGHQ(config-router)#passive-interface loopback0
+REGHQ(config-router)#exit
+
+
+
+
+REGHQ(config)#do wr
+Building configuration...
+[OK]
+REGHQ(config)#

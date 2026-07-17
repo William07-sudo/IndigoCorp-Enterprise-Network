@@ -1,0 +1,16 @@
+ISP ROUTER
+
+Router>
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#hostname ISP
+ISP(config)#int s0/1/1
+ISP(config-if)#ip add 203.0.115.2 255.255.255.252
+ISP(config-if)#no shut
+
+%LINK-5-CHANGED: Interface Serial0/1/1, changed state to down
+ISP(config-if)#exit
+ISP(config)#ip route 192.168.9.0 255.255.0.0 203.0.115.1
+%Inconsistent address and mask
+ISP(config)#ip route 192.168.0.0 255.255.0.0 203.0.115.1

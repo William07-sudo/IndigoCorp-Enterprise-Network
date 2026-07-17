@@ -1,0 +1,39 @@
+Essex Core Router
+
+Router>en
+Router#sh ip int br
+Interface              IP-Address      OK? Method Status                Protocol 
+GigabitEthernet0/0/0   unassigned      YES unset  administratively down down 
+GigabitEthernet0/0/1   unassigned      YES unset  administratively down down 
+GigabitEthernet0/0/2   unassigned      YES unset  administratively down down 
+Serial0/1/0            unassigned      YES unset  administratively down down 
+Serial0/1/1            unassigned      YES unset  administratively down down 
+Serial0/2/0            unassigned      YES unset  administratively down down 
+Serial0/2/1            unassigned      YES unset  administratively down down 
+Vlan1                  unassigned      YES unset  administratively down down
+Router#
+Router#end
+Translating "end"...domain server (255.255.255.255)
+% Unknown command or computer name, or unable to find computer address
+
+Router#en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#hostname Essex-CoreR
+Essex-CoreR(config)#int g0/0/0
+Essex-CoreR(config-if)#ip add 203.0.113.2 255.255.255.252
+Essex-CoreR(config-if)#no shut
+
+Essex-CoreR(config-if)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/0, changed state to up
+
+Essex-CoreR(config-if)#int se0/1/0
+Essex-CoreR(config-if)#ip add 203.0.114.1 255.255.255.252
+Essex-CoreR(config-if)#no shut
+
+%LINK-5-CHANGED: Interface Serial0/1/0, changed state to down
+Essex-CoreR(config-if)#
+Essex-CoreR(config-if)#do wr
+Building configuration...
+[OK]
+Essex-CoreR(config-if)#
